@@ -1,0 +1,286 @@
+<HTML>
+<head>
+</head>
+<style>
+	TH{align:center; FONT-SIZE:15PX; FONT-FAMILY:ARIAL; BACKGROUND:WHITE COLOR:BLACK}
+	input{FONT-FAMILY:ARIAL; FONT-SIZE:45PX; FONT-WEIGHT:BOLD; WIDTH:150}
+	TEAM-A{FONT-FAMILY:ARIAL; FONT-SIZE:50PX; FONT-WEIGHT:BOLD; COLOR:BLUE}
+</style>
+
+<script type="text/javascript">
+var group1score=0, group2score=0, flg = 1, counter = 0, group1, group2, doublescore;
+var Q=[];
+var A=[];
+
+	Q[1] = "What are the different Graphic Objects?"//500 Java//
+	Q[2] = "Inside which HTML element do we put the JavaScript?"//500 Javascript//
+	Q[3] = "A single line comment in C++ language source code can begin with _____"//500 C++//
+	Q[4] = "What is the output of print str[0] if str = 'Hello World!'?"//500 Python//
+	Q[5] = "What does HTML stand for?"//500 HTML//
+	Q[6] = "What are the 3 Graphic Methods?"//400 Java//
+	Q[7] = "How do you write ''Hello World'' in an alert box?"//400 Javascript//
+	Q[8] = "An array can be passed to the function with call by value mechanism.True or False?"//400 C++/
+	Q[9] = "What is the output of for x in [1, 2, 3]: print x?"//400 Python//
+	Q[10] = "Who is making the Web standards?"//400 HTML//
+	Q[11] = "How to compile a java code in CMD?"//300 Java//
+	Q[12] = "How do you create a function in JavaScript?"//300 Javascript//
+	Q[13] = "A reference is declared using the _____ symbol."//300 C++//
+	Q[14] = "What is the following function returns item from the list with min value?"//300 Python//
+	Q[15] = "What is the correct HTML element for inserting a line break?"//300 HTML//
+	Q[16] = "How to run an applet code in CMD?"//200 Java//
+	Q[17] = "How to write an IF statement in JavaScript?"//200 Javascript//
+	Q[18] = "We can have varying number of arguments for the overloaded form of () operator.True or False?"//200 C++//
+	Q[19] = "What is the output of print str if str = 'Hello World!'?"//200 Python//
+	Q[20] = "Choose the correct HTML element to define important text"//200 HTML//
+
+	A[1] = "String,Line,Rect,RoundRect,Oval,Arc,Polygon"
+	A[2] = "<script>"
+	A[3] = "//"
+	A[4] = "H"
+	A[5] = "Hyper Text Markup Language"
+	A[6] = "draw,fill,clear"
+	A[7] = "alert(''Hello World'');"
+	A[8] = "False"
+	A[9] = "1 2 3"
+	A[10] = "The World Wide Web Consortium"
+	A[11] = "javac Classname.java"
+	A[12] = "function myFunction()"
+	A[13] = "&"
+	A[14] = "min(list)"
+	A[15] = "<br>"
+	A[16] = "appletviewer Classname.html"
+	A[17] = "if(condition)"
+	A[18] = "True"
+	A[19] = "Hello World!"
+	A[20] = "<strong>"
+
+	
+function teamName()
+{
+	group1 = prompt("input Name for Group 1:", "group1")
+	if (group1 == null) group1 = "group1"
+	document.getElementById("group1").innerHTML = "<center><BR>" + group1 + "<HR SOLID COLOR=BLACK><div style='FONT-SIZE:100PX' ID=S1>";
+
+	group2 = prompt("input Name for Group 2:", "group2")
+	if (group2 == null) group2 = "group2"
+	document.getElementById("group2").innerHTML = "<center><BR>" + group2 + "<HR SOLID COLOR=BLACK><div style='FONT-SIZE:100PX' ID=S2>";
+
+	var rdm = parseInt(Math.random() * 2) + 1
+	if (rdm == 1 ) 
+		{
+			flg = 1
+			alert(group1 + " goes first!")
+			document.getElementById("BOT").innerHTML = "<BR>" + group1 + " get \'s to pick first."
+		}
+	else
+		{
+			flg = 2
+			alert(group2 + " goes first!")
+			document.getElementById("BOT").innerHTML = "<BR>" + group2 + " get \'s to pick first."
+		}
+		
+	doublescore = parseInt(Math.random() * 15) + 1; //double Jeopardy
+	//alert(doublescore)
+	score();	
+}
+
+function jeop(x)
+{
+	
+	if (flg>2) flg = 1
+	counter++
+		
+	var question, comment = "";
+	var temp = "B" + x
+	var scr = parseInt(document.getElementById(temp).value)
+		
+	document.getElementById(temp).style.visibility = "hidden";
+	
+	if (x == doublescore) //double Jeopardy
+	{
+		alert("Double Jeopardy!")
+		comment = "<BR> If you get this question correctly, your score will be doubled!"
+		document.getElementById("BOT").innerHTML = comment;
+	}	
+		
+	question = prompt(Q[x])
+	if (question == null) question = " "
+
+	if(question.toUpperCase() == A[x].toUpperCase()) //Answer is Correct
+	{
+		if (flg == 1) //group1 is Correct
+		{
+			group1score = group1score + scr;
+			if (x == doublescore) //double Jeopardy
+			{	
+				group1score = group1score * 2;
+			}
+			comment = "<BR>" + group1 + " \'s answer is correct! It\'s " + group2 + "\'s turn."
+		}
+		else //group2 is Correct
+		{
+			group2score = group2score + scr;
+			if (x == doublescore) //double Jeopardy
+			{	
+				group2score = group2score * 2;
+			}
+			comment = "<BR>" + group2 + "\'s answer is correct! It\'s " + group1 + "\'s turn."			
+		}
+	}
+	else // Answer is Wrong
+	{
+		if (flg == 1)//group1 is Wrong 
+		{
+			group1score = group1score - 100;
+			comment = "<BR>" + group1 + "\'s WRONG! " + group2 + " can steal."
+			document.getElementById("BOT").innerHTML = comment;
+			question = prompt(Q[x])
+			if (question == null) question = " "
+
+			if(question.toUpperCase() == A[x].toUpperCase())//group2 is Correct --- Steal
+			{
+				group2score = group2score + scr;
+				if (x == doublescore) //double Jeopardy
+				{	
+					group2score = group2score * 2;
+				}
+				comment = "<BR>" + group2 + " \'s CORRECT! It\'s still " + group2 + "\'s turn."
+			}
+			else//group2 is Wrong --- Steal
+			{
+				group2score = group2score - 100;
+				comment = "<BR>" + group2 + "\'s WRONG! It\'s still " + group2 + "\'s turn. <BR>Answer: " + A[x]
+			}
+			
+		}
+		else//group2 is Wrong 
+		{
+			group2score = group2score - 100;
+			comment = "<BR>" + group2 + "\'s WRONG! " + group1 + " can steal."
+			document.getElementById("BOT").innerHTML = comment;
+			question = prompt(Q[x])
+			if (question == null) question = " "
+
+			if(question.toUpperCase() == A[x].toUpperCase())//group1 is Correct --- Steal
+			{
+				group1score = group1score + scr;
+				if (x == doublescore) //double Jeopardy
+				{		
+					group1score = group1score * 2;
+				}
+				comment = "<BR>" + group1 + " \'s CORRECT! It\'s still " + group1 + "\'s turn."
+			}
+			else//group1 is Wrong --- Steal
+			{
+				group1score = group1score - 100;
+				comment = "<BR>" + group1 + "\'s WRONG! It\'s still " + group1 + "\'s turn. <BR>Answer: " + A[x]
+			}		
+		}
+	}
+
+	score();	
+	flg++
+	
+	if(counter == 20)
+	{
+		if(group1score == group2score)
+		{
+			comment = "<BR>End of Game. It's a tie!"			
+		}
+		else if(group1score > group2score)
+		{
+			comment = "<BR>End of Game. " + group1 + " wins!"			
+		}
+		else
+		{
+			comment = "<BR>End of Game. " + group2 + " wins!"
+		}
+	}
+
+	document.getElementById("BOT").innerHTML = comment;
+	
+}
+
+function score()
+{
+	document.getElementById("S1").innerHTML = group1score;
+	document.getElementById("S2").innerHTML = group2score;
+}
+
+</script>
+
+	<body bgcolor=black onload="teamName();">
+
+	<table align=center bgcolor=WHITE>
+
+<td>
+			<table border=10 cellpadding=0 cellspacing=10 align=Left>
+				<td rowspan=4 Valign=Left style="FONT-FAMILY:ARIAL; FONT-SIZE:20PX; FONT-WEIGHT:BOLD; COLOR:red">
+					<div ID=group1 />
+				</td>
+			</table>
+		</td>
+	
+<H1 STYLE="Text-Align:Center; FONT-FAMILY:ARIAL; Color:White; FONT-SIZE:20px">John Steve Palero</h1>
+<H1 STYLE="Text-Align:Center; FONT-FAMILY:ARIAL; Color:White; FONT-SIZE:20px">MKBC</h1>
+<H1 STYLE="TEXT-ALIGN:CENTER; FONT-FAMILY:ARIAL; COLOR:WHITE; FONT-SIZE:40PX">ONLINE JEOPARDY GAME</H1>
+	
+	<td>
+			<table border=10 cellpadding=0 cellspacing=10 align=Right >
+				<td rowspan=4 Valign=Right style="FONT-FAMILY:ARIAL; FONT-SIZE:20PX; FONT-WEIGHT:BOLD; COLOR:blue">
+					<div ID=group2 />
+				</td>
+			</table>
+		</td>
+	</table>
+		
+		<!-- container of the buttons -->
+<TABLE BORDER=0 CELLPADDING=0 CELLSPACING=10 ALIGN=CENTER BGCOLOR=WHITE>
+<TR>
+	<TD ROWSPAN=6 VALIGN=TOP STYLE="FONT-FAMILY:ARIAL; FONT-SIZE:35PX; FONT-WEIGHT:BOLD; BACKGROUND:WHITE; COLOR:BLUE"><DIV ID=TEAMA></DIV>
+	<TH WIDTH=120>JAVA
+	<TH WIDTH=120>JAVASCRIPT
+	<TH WIDTH=120>C++
+	<TH WIDTH=120>PYTHON
+	<TH WIDTH=120>HTML
+	<TD ROWSPAN=6 VALIGN=TOP STYLE="FONT-FAMILY:ARIAL; FONT-SIZE:35PX; FONT-WEIGHT:BOLD; BACKGROUND:WHITE; COLOR:GREEN"><DIV ID=TEAMB></DIV>
+</TR>
+<TR>
+	<TD ALIGN=CENTER><INPUT TYPE=BUTTON VALUE=500 ID=B1 STYLE="FONT-FAMILY:ARIAL; FONT-SIZE:45PX; FONT-WEIGHT:BOLD; WIDTH:150" onclick="jeop(1);">
+	<TD ALIGN=CENTER><INPUT TYPE=BUTTON VALUE=500 ID=B2 STYLE="FONT-FAMILY:ARIAL; FONT-SIZE:45PX; FONT-WEIGHT:BOLD; WIDTH:150" onclick="jeop(2);">
+	<TD ALIGN=CENTER><INPUT TYPE=BUTTON VALUE=500 ID=B3 STYLE="FONT-FAMILY:ARIAL; FONT-SIZE:45PX; FONT-WEIGHT:BOLD; WIDTH:150" onclick="jeop(3);">
+	<TD ALIGN=CENTER><INPUT TYPE=BUTTON VALUE=500 ID=B4 STYLE="FONT-FAMILY:ARIAL; FONT-SIZE:45PX; FONT-WEIGHT:BOLD; WIDTH:150" onclick="jeop(4);">
+	<TD ALIGN=CENTER><INPUT TYPE=BUTTON VALUE=500 ID=B5 STYLE="FONT-FAMILY:ARIAL; FONT-SIZE:45PX; FONT-WEIGHT:BOLD; WIDTH:150" onclick="jeop(5);">
+</TR>
+<TR>
+	<TD ALIGN=CENTER><INPUT TYPE=BUTTON VALUE=400 ID=B6 STYLE="FONT-FAMILY:ARIAL; FONT-SIZE:45PX; FONT-WEIGHT:BOLD; WIDTH:150" onclick="jeop(6);">
+	<TD ALIGN=CENTER><INPUT TYPE=BUTTON VALUE=400 ID=B7 STYLE="FONT-FAMILY:ARIAL; FONT-SIZE:45PX; FONT-WEIGHT:BOLD; WIDTH:150" onclick="jeop(7);">
+	<TD ALIGN=CENTER><INPUT TYPE=BUTTON VALUE=400 ID=B8 STYLE="FONT-FAMILY:ARIAL; FONT-SIZE:45PX; FONT-WEIGHT:BOLD; WIDTH:150" onclick="jeop(8);">
+	<TD ALIGN=CENTER><INPUT TYPE=BUTTON VALUE=400 ID=B9 STYLE="FONT-FAMILY:ARIAL; FONT-SIZE:45PX; FONT-WEIGHT:BOLD; WIDTH:150" onclick="jeop(9);">
+	<TD ALIGN=CENTER><INPUT TYPE=BUTTON VALUE=400 ID=B10 STYLE="FONT-FAMILY:ARIAL; FONT-SIZE:45PX; FONT-WEIGHT:BOLD; WIDTH:150" onclick="jeop(10);">
+</TR>
+<TR>
+	<TD ALIGN=CENTER><INPUT TYPE=BUTTON VALUE=300 ID=B11 STYLE="FONT-FAMILY:ARIAL; FONT-SIZE:45PX; FONT-WEIGHT:BOLD; WIDTH:150" onclick="jeop(11);">
+	<TD ALIGN=CENTER><INPUT TYPE=BUTTON VALUE=300 ID=B12 STYLE="FONT-FAMILY:ARIAL; FONT-SIZE:45PX; FONT-WEIGHT:BOLD; WIDTH:150" onclick="jeop(12);">
+	<TD ALIGN=CENTER><INPUT TYPE=BUTTON VALUE=300 ID=B13 STYLE="FONT-FAMILY:ARIAL; FONT-SIZE:45PX; FONT-WEIGHT:BOLD; WIDTH:150" onclick="jeop(13);">
+	<TD ALIGN=CENTER><INPUT TYPE=BUTTON VALUE=300 ID=B14 STYLE="FONT-FAMILY:ARIAL; FONT-SIZE:45PX; FONT-WEIGHT:BOLD; WIDTH:150" onclick="jeop(14);">
+	<TD ALIGN=CENTER><INPUT TYPE=BUTTON VALUE=300 ID=B15 STYLE="FONT-FAMILY:ARIAL; FONT-SIZE:45PX; FONT-WEIGHT:BOLD; WIDTH:150" onclick="jeop(15);">
+</TR>
+<TR>
+	<TD ALIGN=CENTER><INPUT TYPE=BUTTON VALUE=200 ID=B16 STYLE="FONT-FAMILY:ARIAL; FONT-SIZE:45PX; FONT-WEIGHT:BOLD; WIDTH:150" onclick="jeop(16);">
+	<TD ALIGN=CENTER><INPUT TYPE=BUTTON VALUE=200 ID=B17 STYLE="FONT-FAMILY:ARIAL; FONT-SIZE:45PX; FONT-WEIGHT:BOLD; WIDTH:150" onclick="jeop(17);">
+	<TD ALIGN=CENTER><INPUT TYPE=BUTTON VALUE=200 ID=B18 STYLE="FONT-FAMILY:ARIAL; FONT-SIZE:45PX; FONT-WEIGHT:BOLD; WIDTH:150" onclick="jeop(18);">
+	<TD ALIGN=CENTER><INPUT TYPE=BUTTON VALUE=200 ID=B19 STYLE="FONT-FAMILY:ARIAL; FONT-SIZE:45PX; FONT-WEIGHT:BOLD; WIDTH:150" onclick="jeop(19);">
+	<TD ALIGN=CENTER><INPUT TYPE=BUTTON VALUE=200 ID=B20 STYLE="FONT-FAMILY:ARIAL; FONT-SIZE:45PX; FONT-WEIGHT:BOLD; WIDTH:150" onclick="jeop(20);">
+</TR>
+
+</TABLE>
+	<!-- status label at the bottom -->
+	<table border=4 align=Center >
+		<td Valign=Center style="COLOR:green; TEXT-align:center; FONT-FAMILY:ARIAL; FONT-SIZE:20PX">
+			<div ID=BOT />
+		</td>
+	</table>
+
+	</body>
+</HTML>
